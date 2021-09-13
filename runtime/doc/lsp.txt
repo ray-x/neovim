@@ -1126,6 +1126,9 @@ outgoing_calls()                                *vim.lsp.buf.outgoing_calls()*
                 cursor in the |quickfix| window. If the symbol can resolve to
                 multiple items, the user can pick one in the |inputlist|.
 
+prepare_rename({err}, {result})                 *vim.lsp.buf.prepare_rename()*
+                TODO: Documentation
+
                                              *vim.lsp.buf.range_code_action()*
 range_code_action({context}, {start_pos}, {end_pos})
                 Performs |vim.lsp.buf.code_action()| for a given range.
@@ -1279,7 +1282,7 @@ get_count({bufnr}, {severity}, {client_id})
       endif
       return sl
     endfunction
-    let &l:statusline = '%#MyStatuslineLSP#LSP '.LspStatus()
+    autocmd BufWinEnter * let &l:statusline = '%#MyStatuslineLSP#LSP '.LspStatus()
 <
 
                 Parameters: ~
@@ -2272,6 +2275,9 @@ get_filename()                                    *vim.lsp.log.get_filename()*
 
                 Return: ~
                     (string) log filename
+
+get_level()                                          *vim.lsp.log.get_level()*
+                TODO: Documentation
 
 set_level({level})                                   *vim.lsp.log.set_level()*
                 Sets the current log level.

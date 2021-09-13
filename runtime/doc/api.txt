@@ -706,7 +706,7 @@ nvim_create_buf({listed}, {scratch})                       *nvim_create_buf()*
                     buf_open_scratch
 
 nvim_create_namespace({name})                        *nvim_create_namespace()*
-                Creates a new namespace, or gets an existing one.
+                Creates a new namespace , or gets an existing one.
 
                 Namespaces are used for buffer highlights and virtual text,
                 see |nvim_buf_add_highlight()| and |nvim_buf_set_extmark()|.
@@ -828,7 +828,7 @@ nvim_feedkeys({keys}, {mode}, {escape_csi})                  *nvim_feedkeys()*
                 On execution error: does not fail, but updates v:errmsg.
 
                 To input sequences like <C-o> use |nvim_replace_termcodes()|
-                (typically with escape_csi=true) to replace the keycodes. Then
+                (typically with escape_csi=true) to replace |keycodes|, then
                 pass the result to nvim_feedkeys().
 
                 Example: >
@@ -866,32 +866,33 @@ nvim_get_api_info()                                      *nvim_get_api_info()*
                     {fast}
 
 nvim_get_chan_info({chan})                              *nvim_get_chan_info()*
-                Get information about a channel.
+                Gets information about a channel.
 
                 Return: ~
                     Dictionary describing a channel, with these keys:
-                    • "stream" the stream underlying the channel
+                    • "id" Channel id.
+                    • "argv" (optional) Job arguments list.
+                    • "stream" Stream underlying the channel.
                       • "stdio" stdin and stdout of this Nvim instance
                       • "stderr" stderr of this Nvim instance
                       • "socket" TCP/IP socket or named pipe
-                      • "job" job with communication over its stdio
+                      • "job" Job with communication over its stdio.
 
-                    • "mode" how data received on the channel is interpreted
-                      • "bytes" send and receive raw bytes
-                      • "terminal" a |terminal| instance interprets ASCII
-                        sequences
-                      • "rpc" |RPC| communication on the channel is active
+                    • "mode" How data received on the channel is interpreted.
+                      • "bytes" Send and receive raw bytes.
+                      • "terminal" |terminal| instance interprets ASCII
+                        sequences.
+                      • "rpc" |RPC| communication on the channel is active.
 
-                    • "pty" Name of pseudoterminal, if one is used (optional).
-                      On a POSIX system, this will be a device path like
-                      /dev/pts/1. Even if the name is unknown, the key will
-                      still be present to indicate a pty is used. This is
-                      currently the case when using winpty on windows.
-                    • "buffer" buffer with connected |terminal| instance
-                      (optional)
-                    • "client" information about the client on the other end
-                      of the RPC channel, if it has added it using
-                      |nvim_set_client_info()|. (optional)
+                    • "pty" (optional) Name of pseudoterminal. On a POSIX
+                      system this is a device path like "/dev/pts/1". If the
+                      name is unknown, the key will still be present if a pty
+                      is used (e.g. for winpty on Windows).
+                    • "buffer" (optional) Buffer with connected |terminal|
+                      instance.
+                    • "client" (optional) Info about the peer (client on the
+                      other end of the RPC channel), if provided by it via
+                      |nvim_set_client_info()|.
 
 nvim_get_color_by_name({name})                      *nvim_get_color_by_name()*
                 Returns the 24-bit RGB value of a |nvim_get_color_map()| color
@@ -2119,7 +2120,7 @@ nvim_buf_get_commands({buffer}, {opts})              *nvim_buf_get_commands()*
 
                                                 *nvim_buf_get_extmark_by_id()*
 nvim_buf_get_extmark_by_id({buffer}, {ns_id}, {id}, {opts})
-                Gets the position (0-indexed) of an extmark {id}.
+                Gets the position (0-indexed) of an extmark.
 
                 Parameters: ~
                     {buffer}  Buffer handle, or 0 for current buffer
@@ -2170,12 +2171,12 @@ nvim_buf_get_extmarks({buffer}, {ns_id}, {start}, {end}, {opts})
                 Parameters: ~
                     {buffer}  Buffer handle, or 0 for current buffer
                     {ns_id}   Namespace id from |nvim_create_namespace()|
-                    {start}   Start of range, given as 0-indexed (row, col) or
-                              valid extmark id (whose position defines the
-                              bound)
-                    {end}     End of range (inclusive), given as 0-indexed
-                              (row, col) or valid extmark id (whose position
-                              defines the bound)
+                    {start}   Start of range: a 0-indexed (row, col) or valid
+                              extmark id (whose position defines the bound).
+                              |api-indexing|
+                    {end}     End of range (inclusive): a 0-indexed (row, col)
+                              or valid extmark id (whose position defines the
+                              bound). |api-indexing|
                     {opts}    Optional parameters. Keys:
                               • limit: Maximum number of marks to return
                               • details Whether to include the details dict
@@ -2328,8 +2329,10 @@ nvim_buf_set_extmark({buffer}, {ns_id}, {line}, {col}, {opts})
                 Parameters: ~
                     {buffer}  Buffer handle, or 0 for current buffer
                     {ns_id}   Namespace id from |nvim_create_namespace()|
-                    {line}    Line where to place the mark, 0-based
-                    {col}     Column where to place the mark, 0-based
+                    {line}    Line where to place the mark, 0-based.
+                              |api-indexing|
+                    {col}     Column where to place the mark, 0-based.
+                              |api-indexing|
                     {opts}    Optional parameters.
                               • id : id of the extmark to edit.
                               • end_line : ending line of the mark, 0-based
